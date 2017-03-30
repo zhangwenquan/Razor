@@ -5,7 +5,7 @@ using System;
 using System.Text;
 using Microsoft.AspNetCore.Razor.Evolution;
 
-namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
+namespace Microsoft.AspNetCore.Razor.Test.Common
 {
     public static class LineMappingsSerializer
     {
