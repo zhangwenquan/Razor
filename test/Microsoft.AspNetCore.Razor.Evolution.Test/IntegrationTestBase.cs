@@ -4,14 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-#if NET452
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Messaging;
-#else
 using System.Threading;
-#endif
 using Microsoft.AspNetCore.Razor.Evolution.Intermediate;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Xunit;
 using Xunit.Sdk;
 
@@ -26,29 +21,15 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
         private static readonly bool GenerateBaselines = false;
 #endif
 
-#if !NET452
         private static readonly AsyncLocal<string> _filename = new AsyncLocal<string>();
-#endif
 
         protected static string TestProjectRoot { get; } = TestProject.GetProjectDirectory();
 
         // Used by the test framework to set the 'base' name for test files.
         public static string Filename
         {
-#if NET452
-            get
-            {
-                var handle = (ObjectHandle)CallContext.LogicalGetData("IntegrationTestBase_Filename");
-                return (string)handle.Unwrap();
-            }
-            set
-            {
-                CallContext.LogicalSetData("IntegrationTestBase_Filename", new ObjectHandle(value));
-            }
-#else
             get { return _filename.Value; }
             set { _filename.Value = value; }
-#endif
         }
 
         protected virtual RazorCodeDocument CreateCodeDocument()

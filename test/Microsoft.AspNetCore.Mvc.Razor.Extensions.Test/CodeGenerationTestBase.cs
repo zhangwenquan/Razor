@@ -1,21 +1,22 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Xunit;
-using Microsoft.AspNetCore.Mvc.Razor.Extensions;
 using Microsoft.AspNetCore.Razor.Evolution;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.Extensions.DependencyModel;
-using Microsoft.CodeAnalysis.Razor;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Emit;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Razor.Test.Common;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
+using Microsoft.CodeAnalysis.Razor;
+using Microsoft.Extensions.DependencyModel;
+using Xunit;
 
-namespace Microsoft.AspNetCore.Razor.Test.Common
+namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
 {
     public class CodeGenerationTestBase<TTest>
     {
@@ -71,7 +72,7 @@ namespace Microsoft.AspNetCore.Razor.Test.Common
 #endif
         }
 
-        private void RunDesignTimeTest(string testName, IEnumerable<TagHelperDescriptor> descriptors = null)
+        protected void RunDesignTimeTest(string testName, IEnumerable<TagHelperDescriptor> descriptors = null)
         {
             // Arrange
             var inputFile = "TestFiles/Input/" + testName + ".cshtml";
@@ -131,7 +132,6 @@ namespace Microsoft.AspNetCore.Razor.Test.Common
         {
             var currentAssembly = typeof(TTest).GetTypeInfo().Assembly;
             var dependencyContext = DependencyContext.Load(currentAssembly);
-
             var references = dependencyContext.CompileLibraries.SelectMany(l => l.ResolveReferencePaths())
                 .Select(assemblyPath => MetadataReference.CreateFromFile(assemblyPath))
                 .ToList<MetadataReference>();

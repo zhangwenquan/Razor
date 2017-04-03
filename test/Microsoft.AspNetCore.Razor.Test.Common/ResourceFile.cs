@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
+namespace Microsoft.AspNetCore.Razor.Test.Common
 {
     /// <summary>
     /// Reader and, if GENERATE_BASELINES is defined, writer for files compiled into an assembly as resources.

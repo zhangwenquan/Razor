@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Microsoft.AspNetCore.Testing;
 using Moq;
 using Xunit;

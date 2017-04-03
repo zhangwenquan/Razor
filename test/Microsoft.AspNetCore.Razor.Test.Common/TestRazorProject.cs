@@ -4,8 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Razor.Evolution;
 
-namespace Microsoft.AspNetCore.Razor.Evolution
+namespace Microsoft.AspNetCore.Razor.Test.Common
 {
     public class TestRazorProject : RazorProject
     {
