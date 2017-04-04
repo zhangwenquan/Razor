@@ -1,0 +1,41 @@
+Source Location: (43:3,1 [41] TestFiles/IntegrationTests/CodeGenerationTests/RazorPagesWithoutModel.cshtml)
+|using Microsoft.AspNetCore.Mvc.RazorPages|
+Generated Location: (185:6,0 [41] )
+|using Microsoft.AspNetCore.Mvc.RazorPages|
+
+Source Location: (571:24,47 [4] TestFiles/IntegrationTests/CodeGenerationTests/RazorPagesWithoutModel.cshtml)
+|Name|
+Generated Location: (1330:33,47 [4] )
+|Name|
+
+Source Location: (100:5,12 [283] TestFiles/IntegrationTests/CodeGenerationTests/RazorPagesWithoutModel.cshtml)
+|
+    public IActionResult OnPost(Customer customer)
+    {
+        Name = customer.Name;
+        return Redirect("~/customers/inlinepagemodels/");
+    }
+
+    public string Name { get; set; }
+
+    public class Customer
+    {
+        public string Name { get; set; }
+    }
+|
+Generated Location: (2662:69,12 [283] )
+|
+    public IActionResult OnPost(Customer customer)
+    {
+        Name = customer.Name;
+        return Redirect("~/customers/inlinepagemodels/");
+    }
+
+    public string Name { get; set; }
+
+    public class Customer
+    {
+        public string Name { get; set; }
+    }
+|
+

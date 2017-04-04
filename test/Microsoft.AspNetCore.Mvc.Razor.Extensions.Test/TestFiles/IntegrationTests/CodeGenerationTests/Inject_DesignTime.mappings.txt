@@ -1,0 +1,5 @@
+Source Location: (1:0,1 [17] TestFiles/IntegrationTests/CodeGenerationTests/Inject.cshtml)
+|using MyNamespace|
+Generated Location: (169:6,0 [17] )
+|using MyNamespace|
+

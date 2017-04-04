@@ -1,7 +1,0 @@
-Document - 
-    Checksum - 
-    NamespaceDeclaration -  - AspNetCore
-        UsingStatement -  - System
-        UsingStatement -  - System.Threading.Tasks
-        ClassDeclaration -  - public - TestFiles_IntegrationTests_CodeGenerationTests_Model_cshtml - global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<System.Collections.IEnumerable> - 
-            RazorMethodDeclaration -  - public - async, override - global::System.Threading.Tasks.Task - ExecuteAsync

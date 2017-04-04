@@ -3,8 +3,8 @@ Document -
     NamespaceDeclaration -  - AspNetCore
         UsingStatement -  - System
         UsingStatement -  - System.Threading.Tasks
-        UsingStatement - (60:4,1 [41] RazorPages.cshtml) - Microsoft.AspNetCore.Mvc.RazorPages
-        ClassDeclaration -  - public - TestFiles_IntegrationTests_CodeGenerationTests_RazorPages_cshtml - global::Microsoft.AspNetCore.Mvc.RazorPages.Page - 
+        UsingStatement - (43:3,1 [43] RazorPagesWithoutModel.cshtml) - Microsoft.AspNetCore.Mvc.RazorPages
+        ClassDeclaration -  - public - TestFiles_IntegrationTests_CodeGenerationTests_RazorPagesWithoutModel_cshtml - global::Microsoft.AspNetCore.Mvc.RazorPages.Page - 
             DeclarePreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_0 - class - text-danger - HtmlAttributeValueStyle.DoubleQuotes
             DeclarePreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_1 - class - col-md-10 - HtmlAttributeValueStyle.DoubleQuotes
             DeclarePreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_2 - class - form-group - HtmlAttributeValueStyle.DoubleQuotes
@@ -13,128 +13,123 @@ Document -
             RazorMethodDeclaration -  - public - async, override - global::System.Threading.Tasks.Task - ExecuteAsync
                 CSharpStatement - 
                     RazorIRToken -  - CSharp - BeginContext(7, 2, true);
-                HtmlContent - (7:1,0 [2] RazorPages.cshtml) - \n
+                HtmlContent - (7:1,0 [2] RazorPagesWithoutModel.cshtml) - \n
                 CSharpStatement - 
                     RazorIRToken -  - CSharp - EndContext();
                 CSharpStatement - 
-                    RazorIRToken -  - CSharp - BeginContext(57, 2, true);
-                HtmlContent - (57:3,31 [2] RazorPages.cshtml) - \n
+                    RazorIRToken -  - CSharp - BeginContext(86, 2, true);
+                HtmlContent - (86:4,0 [2] RazorPagesWithoutModel.cshtml) - \n
                 CSharpStatement - 
                     RazorIRToken -  - CSharp - EndContext();
                 CSharpStatement - 
-                    RazorIRToken -  - CSharp - BeginContext(101, 4, true);
-                HtmlContent - (101:4,42 [4] RazorPages.cshtml) - \n\n
+                    RazorIRToken -  - CSharp - BeginContext(386, 75, true);
+                HtmlContent - (386:19,0 [75] RazorPagesWithoutModel.cshtml) - \n<h1>New Customer</h1>\n<form method="post" class="form-horizontal">\n    
                 CSharpStatement - 
                     RazorIRToken -  - CSharp - EndContext();
-                CSharpStatement - 
-                    RazorIRToken -  - CSharp - BeginContext(478, 78, true);
-                HtmlContent - (478:22,1 [78] RazorPages.cshtml) - \n\n<h1>New Customer</h1>\n<form method="post" class="form-horizontal" >\n    
-                CSharpStatement - 
-                    RazorIRToken -  - CSharp - EndContext();
-                TagHelper - (556:26,4 [31] RazorPages.cshtml)
+                TagHelper - (461:22,4 [31] RazorPagesWithoutModel.cshtml)
                     InitializeTagHelperStructure -  - div - TagMode.StartTagAndEndTag
                     CreateTagHelper -  - DivTagHelper
                     AddPreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_0
                     CSharpStatement - 
-                        RazorIRToken -  - CSharp - BeginContext(556, 31, false);
+                        RazorIRToken -  - CSharp - BeginContext(461, 31, false);
                     ExecuteTagHelpers - 
                     CSharpStatement - 
                         RazorIRToken -  - CSharp - EndContext();
                 CSharpStatement - 
-                    RazorIRToken -  - CSharp - BeginContext(587, 6, true);
-                HtmlContent - (587:26,35 [6] RazorPages.cshtml) - \n    
+                    RazorIRToken -  - CSharp - BeginContext(492, 6, true);
+                HtmlContent - (492:22,35 [6] RazorPagesWithoutModel.cshtml) - \n    
                 CSharpStatement - 
                     RazorIRToken -  - CSharp - EndContext();
-                TagHelper - (593:27,4 [237] RazorPages.cshtml)
+                TagHelper - (498:23,4 [237] RazorPagesWithoutModel.cshtml)
                     InitializeTagHelperStructure -  - div - TagMode.StartTagAndEndTag
                         CSharpStatement - 
-                            RazorIRToken -  - CSharp - BeginContext(617, 48, true);
-                        HtmlContent - (617:27,28 [48] RazorPages.cshtml) - \n        <label class="col-md-2 control-label">
+                            RazorIRToken -  - CSharp - BeginContext(522, 48, true);
+                        HtmlContent - (522:23,28 [48] RazorPagesWithoutModel.cshtml) - \n        <label class="col-md-2 control-label">
                         CSharpStatement - 
                             RazorIRToken -  - CSharp - EndContext();
                         CSharpStatement - 
-                            RazorIRToken -  - CSharp - BeginContext(666, 4, false);
-                        CSharpExpression - (666:28,47 [4] RazorPages.cshtml)
-                            RazorIRToken - (666:28,47 [4] RazorPages.cshtml) - CSharp - Name
+                            RazorIRToken -  - CSharp - BeginContext(571, 4, false);
+                        CSharpExpression - (571:24,47 [4] RazorPagesWithoutModel.cshtml)
+                            RazorIRToken - (571:24,47 [4] RazorPagesWithoutModel.cshtml) - CSharp - Name
                         CSharpStatement - 
                             RazorIRToken -  - CSharp - EndContext();
                         CSharpStatement - 
-                            RazorIRToken -  - CSharp - BeginContext(670, 18, true);
-                        HtmlContent - (670:28,51 [18] RazorPages.cshtml) - </label>\n        
+                            RazorIRToken -  - CSharp - BeginContext(575, 18, true);
+                        HtmlContent - (575:24,51 [18] RazorPagesWithoutModel.cshtml) - </label>\n        
                         CSharpStatement - 
                             RazorIRToken -  - CSharp - EndContext();
-                        TagHelper - (688:29,8 [130] RazorPages.cshtml)
+                        TagHelper - (593:25,8 [130] RazorPagesWithoutModel.cshtml)
                             InitializeTagHelperStructure -  - div - TagMode.StartTagAndEndTag
                                 CSharpStatement - 
-                                    RazorIRToken -  - CSharp - BeginContext(711, 101, true);
-                                HtmlContent - (711:29,31 [101] RazorPages.cshtml) - \n            <input class="form-control" />\n            <span class="text-danger"></span>\n        
+                                    RazorIRToken -  - CSharp - BeginContext(616, 101, true);
+                                HtmlContent - (616:25,31 [101] RazorPagesWithoutModel.cshtml) - \n            <input class="form-control" />\n            <span class="text-danger"></span>\n        
                                 CSharpStatement - 
                                     RazorIRToken -  - CSharp - EndContext();
                             CreateTagHelper -  - DivTagHelper
                             AddPreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_1
                             CSharpStatement - 
-                                RazorIRToken -  - CSharp - BeginContext(688, 130, false);
+                                RazorIRToken -  - CSharp - BeginContext(593, 130, false);
                             ExecuteTagHelpers - 
                             CSharpStatement - 
                                 RazorIRToken -  - CSharp - EndContext();
                         CSharpStatement - 
-                            RazorIRToken -  - CSharp - BeginContext(818, 6, true);
-                        HtmlContent - (818:32,14 [6] RazorPages.cshtml) - \n    
+                            RazorIRToken -  - CSharp - BeginContext(723, 6, true);
+                        HtmlContent - (723:28,14 [6] RazorPagesWithoutModel.cshtml) - \n    
                         CSharpStatement - 
                             RazorIRToken -  - CSharp - EndContext();
                     CreateTagHelper -  - DivTagHelper
                     AddPreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_2
                     CSharpStatement - 
-                        RazorIRToken -  - CSharp - BeginContext(593, 237, false);
+                        RazorIRToken -  - CSharp - BeginContext(498, 237, false);
                     ExecuteTagHelpers - 
                     CSharpStatement - 
                         RazorIRToken -  - CSharp - EndContext();
                 CSharpStatement - 
-                    RazorIRToken -  - CSharp - BeginContext(830, 6, true);
-                HtmlContent - (830:33,10 [6] RazorPages.cshtml) - \n    
+                    RazorIRToken -  - CSharp - BeginContext(735, 6, true);
+                HtmlContent - (735:29,10 [6] RazorPagesWithoutModel.cshtml) - \n    
                 CSharpStatement - 
                     RazorIRToken -  - CSharp - EndContext();
-                TagHelper - (836:34,4 [174] RazorPages.cshtml)
+                TagHelper - (741:30,4 [174] RazorPagesWithoutModel.cshtml)
                     InitializeTagHelperStructure -  - div - TagMode.StartTagAndEndTag
                         CSharpStatement - 
-                            RazorIRToken -  - CSharp - BeginContext(860, 10, true);
-                        HtmlContent - (860:34,28 [10] RazorPages.cshtml) - \n        
+                            RazorIRToken -  - CSharp - BeginContext(765, 10, true);
+                        HtmlContent - (765:30,28 [10] RazorPagesWithoutModel.cshtml) - \n        
                         CSharpStatement - 
                             RazorIRToken -  - CSharp - EndContext();
-                        TagHelper - (870:35,8 [128] RazorPages.cshtml)
+                        TagHelper - (775:31,8 [128] RazorPagesWithoutModel.cshtml)
                             InitializeTagHelperStructure -  - div - TagMode.StartTagAndEndTag
                                 CSharpStatement - 
-                                    RazorIRToken -  - CSharp - BeginContext(909, 83, true);
-                                HtmlContent - (909:35,47 [83] RazorPages.cshtml) - \n            <button type="submit" class="btn btn-primary">Save</button>\n        
+                                    RazorIRToken -  - CSharp - BeginContext(814, 83, true);
+                                HtmlContent - (814:31,47 [83] RazorPagesWithoutModel.cshtml) - \n            <button type="submit" class="btn btn-primary">Save</button>\n        
                                 CSharpStatement - 
                                     RazorIRToken -  - CSharp - EndContext();
                             CreateTagHelper -  - DivTagHelper
                             AddPreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_3
                             CSharpStatement - 
-                                RazorIRToken -  - CSharp - BeginContext(870, 128, false);
+                                RazorIRToken -  - CSharp - BeginContext(775, 128, false);
                             ExecuteTagHelpers - 
                             CSharpStatement - 
                                 RazorIRToken -  - CSharp - EndContext();
                         CSharpStatement - 
-                            RazorIRToken -  - CSharp - BeginContext(998, 6, true);
-                        HtmlContent - (998:37,14 [6] RazorPages.cshtml) - \n    
+                            RazorIRToken -  - CSharp - BeginContext(903, 6, true);
+                        HtmlContent - (903:33,14 [6] RazorPagesWithoutModel.cshtml) - \n    
                         CSharpStatement - 
                             RazorIRToken -  - CSharp - EndContext();
                     CreateTagHelper -  - DivTagHelper
                     AddPreallocatedTagHelperHtmlAttribute -  - __tagHelperAttribute_2
                     CSharpStatement - 
-                        RazorIRToken -  - CSharp - BeginContext(836, 174, false);
+                        RazorIRToken -  - CSharp - BeginContext(741, 174, false);
                     ExecuteTagHelpers - 
                     CSharpStatement - 
                         RazorIRToken -  - CSharp - EndContext();
                 CSharpStatement - 
-                    RazorIRToken -  - CSharp - BeginContext(1010, 11, true);
-                HtmlContent - (1010:38,10 [11] RazorPages.cshtml) - \n</form>\n
+                    RazorIRToken -  - CSharp - BeginContext(915, 11, true);
+                HtmlContent - (915:34,10 [11] RazorPagesWithoutModel.cshtml) - \n</form>\n
                 CSharpStatement - 
                     RazorIRToken -  - CSharp - EndContext();
-            CSharpStatement - (117:6,12 [360] RazorPages.cshtml)
-                RazorIRToken - (117:6,12 [360] RazorPages.cshtml) - CSharp - \n    public class NewModel : PageModel\n    {\n        public IActionResult OnPost(Customer customer)\n        {\n            Name = customer.Name;\n            return Redirect("~/customers/inlinepagemodels/");\n        }\n\n        public string Name { get; set; }\n    }\n\n    public class Customer\n    {\n        public string Name { get; set; }\n    }\n
+            CSharpStatement - (100:5,12 [283] RazorPagesWithoutModel.cshtml)
+                RazorIRToken - (100:5,12 [283] RazorPagesWithoutModel.cshtml) - CSharp - \n    public IActionResult OnPost(Customer customer)\n    {\n        Name = customer.Name;\n        return Redirect("~/customers/inlinepagemodels/");\n    }\n\n    public string Name { get; set; }\n\n    public class Customer\n    {\n        public string Name { get; set; }\n    }\n
             CSharpStatement - 
-                RazorIRToken -  - CSharp - public global::Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary<NewModel> ViewData => (global::Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary<NewModel>)PageContext?.ViewData;
+                RazorIRToken -  - CSharp - public global::Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary<TestFiles_IntegrationTests_CodeGenerationTests_RazorPagesWithoutModel_cshtml> ViewData => (global::Microsoft.AspNetCore.Mvc.ViewFeatures.ViewDataDictionary<TestFiles_IntegrationTests_CodeGenerationTests_RazorPagesWithoutModel_cshtml>)PageContext?.ViewData;
             CSharpStatement - 
-                RazorIRToken -  - CSharp - public NewModel Model => ViewData.Model;
+                RazorIRToken -  - CSharp - public TestFiles_IntegrationTests_CodeGenerationTests_RazorPagesWithoutModel_cshtml Model => ViewData.Model;

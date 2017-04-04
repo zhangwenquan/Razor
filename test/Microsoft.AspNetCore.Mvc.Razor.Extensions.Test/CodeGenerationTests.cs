@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
         }
 
         [Fact]
-        public void ViewImports_Runtime()
+        public void _ViewImports_Runtime()
         {
             RunRuntimeTest();
         }
@@ -59,9 +59,9 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
         }
 
         [Fact]
-        public void RazorEngine_RazorPagesWithoutModel_Runtime()
+        public void RazorPagesWithoutModel_Runtime()
         {
-            RunRuntimeTest("RazorPagesWithoutModel", BuildDivDescriptors());
+            RunRuntimeTest(BuildDivDescriptors());
         }
         #endregion
 
@@ -73,7 +73,7 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
         }
 
         [Fact]
-        public void ViewImports_DesignTime()
+        public void _ViewImports_DesignTime()
         {
             RunDesignTimeTest();
         }
@@ -121,9 +121,9 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
         }
 
         [Fact]
-        public void RazorEngine_RazorPagesWithoutModel_DesignTime()
+        public void RazorPagesWithoutModel_DesignTime()
         {
-            RunDesignTimeTest("RazorPagesWithoutModel", BuildDivDescriptors());
+            RunDesignTimeTest(BuildDivDescriptors());
         }
         #endregion
 

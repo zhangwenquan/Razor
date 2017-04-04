@@ -6,9 +6,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using Microsoft.AspNetCore.Mvc.Razor.Extensions;
 using Microsoft.AspNetCore.Razor.Evolution;
 using Microsoft.AspNetCore.Razor.Evolution.IntegrationTests;
 using Microsoft.AspNetCore.Razor.Evolution.Intermediate;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Razor;
 using Xunit;
 using Xunit.Sdk;
 
@@ -41,6 +45,36 @@ namespace Microsoft.AspNetCore.Razor.Test.Common
         {
             get { return _filename.Value; }
             set { _filename.Value = value; }
+        }
+
+        protected RazorEngine CreateRazorEngine(
+            IEnumerable<TagHelperDescriptor> descriptors,
+            bool designTime,
+            IEnumerable<IRazorEngineFeature> features)
+        {
+            return RazorEngine.Create(b =>
+            {
+                RazorExtensions.Register(b);
+
+                if (designTime)
+                {
+                    b.Features.Add(new DesignTimeParserOptionsFeature());
+                }
+
+                foreach(var feature in features)
+                {
+                    b.Features.Add(feature);
+                }
+
+                if (descriptors != null)
+                {
+                    b.AddTagHelpers(descriptors);
+                }
+                else
+                {
+                    b.Features.Add(new DefaultTagHelperFeature());
+                }
+            });
         }
 
         protected virtual RazorCodeDocument CreateCodeDocument()

@@ -1,13 +1,11 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Razor.Evolution;
-using Microsoft.AspNetCore.Razor.Evolution.IntegrationTests;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Razor.Test.Common;
 using Microsoft.CodeAnalysis;
@@ -28,29 +26,13 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
 
         private static Assembly _assembly = typeof(TTest).GetTypeInfo().Assembly;
 
-        private static RazorEngine GetRazorEngine(IEnumerable<TagHelperDescriptor> descriptors)
-        {
-            return RazorEngine.Create(b =>
-            {
-                RazorExtensions.Register(b);
-
-                b.Features.Add(GetMetadataReferenceFeature());
-
-                if (descriptors != null)
-                {
-                    b.AddTagHelpers(descriptors);
-                }
-                else
-                {
-                    b.Features.Add(new DefaultTagHelperFeature());
-                }
-            });
-        }
-
         protected void RunRuntimeTest(IEnumerable<TagHelperDescriptor> descriptors = null)
         {
             // Arrange
-            var engine = GetRazorEngine(descriptors);
+            var engine = CreateRazorEngine(
+                descriptors,
+                false,
+                new List<IRazorEngineFeature> { GetMetadataReferenceFeature() });
             var document = CreateCodeDocument();  
             
             // Act
@@ -68,7 +50,10 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
         protected void RunDesignTimeTest(IEnumerable<TagHelperDescriptor> descriptors = null)
         {
             // Arrange
-            var engine = GetRazorEngine(descriptors);
+            var engine = CreateRazorEngine(
+                descriptors,
+                true,
+                new List<IRazorEngineFeature> { GetMetadataReferenceFeature() });
             var document = CreateCodeDocument();
 
             // Act
@@ -83,6 +68,7 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
         {
             var currentAssembly = typeof(TTest).GetTypeInfo().Assembly;
             var dependencyContext = DependencyContext.Load(currentAssembly);
+
             var references = dependencyContext.CompileLibraries.SelectMany(l => l.ResolveReferencePaths())
                 .Select(assemblyPath => MetadataReference.CreateFromFile(assemblyPath))
                 .ToList<MetadataReference>();
