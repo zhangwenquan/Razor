@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Razor.Evolution;
-using Microsoft.AspNetCore.Razor.Test.Common;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
@@ -12,51 +11,51 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
     {
         #region Runtime
         [Fact]
-        public void RazorEngine_Basic_Runtime()
+        public void Basic_Runtime()
         {
-            RunRuntimeTest("Basic");
+            RunRuntimeTest();
         }
 
         [Fact]
-        public void RazorEngine_ViewImports_Runtime()
+        public void ViewImports_Runtime()
         {
-            RunRuntimeTest("_ViewImports");
+            RunRuntimeTest();
         }
 
         [Fact]
-        public void RazorEngine_Inject_Runtime()
+        public void Inject_Runtime()
         {
-            RunRuntimeTest("Inject");
+            RunRuntimeTest();
         }
 
         [Fact]
-        public void RazorEngine_InjectWithModel_Runtime()
+        public void InjectWithModel_Runtime()
         {
-            RunRuntimeTest("InjectWithModel");
+            RunRuntimeTest();
         }
 
         [Fact]
-        public void RazorEngine_InjectWithSemicolon_Runtime()
+        public void InjectWithSemicolon_Runtime()
         {
-            RunRuntimeTest("InjectWithSemicolon");
+            RunRuntimeTest();
         }
 
         [Fact]
-        public void RazorEngine_Model_Runtime()
+        public void Model_Runtime()
         {
-            RunRuntimeTest("Model");
+            RunRuntimeTest();
         }
 
         [Fact]
-        public void RazorEngine_ModelExpressionTagHelper_Runtime()
+        public void ModelExpressionTagHelper_Runtime()
         {
-            RunRuntimeTest("ModelExpressionTagHelper");
+            RunRuntimeTest();
         }
 
         [Fact]
-        public void RazorEngine_RazorPages_Runtime()
+        public void RazorPages_Runtime()
         {
-            RunRuntimeTest("RazorPages", BuildDivDescriptors());
+            RunRuntimeTest(BuildDivDescriptors());
         }
 
         [Fact]
@@ -68,57 +67,57 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
 
         #region DesignTime
         [Fact]
-        public void RazorEngine_Basic_DesignTime()
+        public void Basic_DesignTime()
         {
-            RunDesignTimeTest("Basic");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_ViewImports_DesignTime()
+        public void ViewImports_DesignTime()
         {
-            RunDesignTimeTest("_ViewImports");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_Inject_DesignTime()
+        public void Inject_DesignTime()
         {
-            RunDesignTimeTest("Inject");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_InjectWithModel_DesignTime()
+        public void InjectWithModel_DesignTime()
         {
-            RunDesignTimeTest("InjectWithModel");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_InjectWithSemicolon_DesignTime()
+        public void InjectWithSemicolon_DesignTime()
         {
-            RunDesignTimeTest("InjectWithSemicolon");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_Model_DesignTime()
+        public void Model_DesignTime()
         {
-            RunDesignTimeTest("Model");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_MultipleModels_DesignTime()
+        public void MultipleModels_DesignTime()
         {
-            RunDesignTimeTest("MultipleModels");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_ModelExpressionTagHelper_DesignTime()
+        public void ModelExpressionTagHelper_DesignTime()
         {
-            RunDesignTimeTest("ModelExpressionTagHelper");
+            RunDesignTimeTest();
         }
 
         [Fact]
-        public void RazorEngine_RazorPages_DesignTime()
+        public void RazorPages_DesignTime()
         {
-            RunDesignTimeTest("RazorPages", BuildDivDescriptors());
+            RunDesignTimeTest(BuildDivDescriptors());
         }
 
         [Fact]

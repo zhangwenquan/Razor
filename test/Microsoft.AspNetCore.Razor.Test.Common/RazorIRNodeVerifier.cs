@@ -67,7 +67,7 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
                     throw new IRBaselineException(node, expected, actual, message);
                 }
 
-                int charsVerified = 0;
+                var charsVerified = 0;
                 AssertNestingEqual(node, expected, actual, ref charsVerified);
                 AssertNameEqual(node, expected, actual, ref charsVerified);
                 AssertDelimiter(node, expected, actual, true, ref charsVerified);

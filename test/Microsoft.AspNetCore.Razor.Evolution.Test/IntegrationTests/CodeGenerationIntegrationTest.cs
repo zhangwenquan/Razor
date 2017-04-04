@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Evolution.Intermediate;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Xunit;
 using Xunit.Sdk;
 
@@ -13,6 +14,10 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
 {
     public class CodeGenerationIntegrationTest : IntegrationTestBase
     {
+        public CodeGenerationIntegrationTest()
+            :base(typeof(CodeGenerationIntegrationTest))
+        { }
+
         #region Runtime
         [Fact]
         public void BasicImports_Runtime()
@@ -1571,7 +1576,7 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
 
             var normalizedFileName = Filename.Substring(0, Filename.LastIndexOf("_"));
             var sourceFilename = Path.ChangeExtension(normalizedFileName, ".cshtml");
-            var testFile = TestFile.Create(sourceFilename);
+            var testFile = new TestFile(sourceFilename, Assembly);
             if (!testFile.Exists())
             {
                 throw new XunitException($"The resource {sourceFilename} was not found.");
@@ -1581,17 +1586,18 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
             while (true)
             {
                 var importsFilename = Path.ChangeExtension(normalizedFileName + "_Imports" + imports.Count.ToString(), ".cshtml");
-                if (!TestFile.Create(importsFilename).Exists())
+                var importsTestFile = new TestFile(importsFilename, Assembly);
+                if (!importsTestFile.Exists())
                 {
                     break;
                 }
 
                 imports.Add(
-                    TestRazorSourceDocument.CreateResource(importsFilename, encoding: null, normalizeNewLines: true));
+                    TestRazorSourceDocument.CreateResource(importsFilename, Assembly, encoding: null, normalizeNewLines: true));
             }
 
             var codeDocument = RazorCodeDocument.Create(
-                TestRazorSourceDocument.CreateResource(sourceFilename, encoding: null, normalizeNewLines: true), imports);
+                TestRazorSourceDocument.CreateResource(sourceFilename, Assembly, encoding: null, normalizeNewLines: true), imports);
 
             // This will ensure that we're not putting any randomly generated data in a baseline.
             codeDocument.Items[DefaultRazorCSharpLoweringPhase.SuppressUniqueIds] = "test";

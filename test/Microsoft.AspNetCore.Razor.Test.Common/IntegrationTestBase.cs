@@ -4,17 +4,28 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading;
+using Microsoft.AspNetCore.Razor.Evolution;
+using Microsoft.AspNetCore.Razor.Evolution.IntegrationTests;
 using Microsoft.AspNetCore.Razor.Evolution.Intermediate;
-using Microsoft.AspNetCore.Razor.Test.Common;
 using Xunit;
 using Xunit.Sdk;
 
-namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
+namespace Microsoft.AspNetCore.Razor.Test.Common
 {
     [IntializeTestFile]
     public abstract class IntegrationTestBase
     {
+        private Type _parentClassType;
+
+        public IntegrationTestBase(Type parentClassType)
+        {
+            _parentClassType = parentClassType;
+        }
+
+        protected Assembly Assembly { get { return _parentClassType.GetTypeInfo().Assembly; } }
+
 #if GENERATE_BASELINES
         private static readonly bool GenerateBaselines = true;
 #else
@@ -23,7 +34,7 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
 
         private static readonly AsyncLocal<string> _filename = new AsyncLocal<string>();
 
-        protected static string TestProjectRoot { get; } = TestProject.GetProjectDirectory();
+        protected string TestProjectRoot { get { return TestProject.GetProjectDirectory(_parentClassType); } }
 
         // Used by the test framework to set the 'base' name for test files.
         public static string Filename
@@ -41,7 +52,9 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
             }
 
             var sourceFilename = Path.ChangeExtension(Filename, ".cshtml");
-            var testFile = TestFile.Create(sourceFilename);
+            sourceFilename = sourceFilename.Replace("_DesignTime", "");
+            sourceFilename = sourceFilename.Replace("_Runtime", "");
+            var testFile = new TestFile(sourceFilename, Assembly);
             if (!testFile.Exists())
             {
                 throw new XunitException($"The resource {sourceFilename} was not found.");
@@ -51,17 +64,26 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
             while (true)
             {
                 var importsFilename = Path.ChangeExtension(Filename + "_Imports" + imports.Count.ToString(), ".cshtml");
-                if (!TestFile.Create(importsFilename).Exists())
+                var importsTestFile = new TestFile(importsFilename, Assembly);
+                if (!importsTestFile.Exists())
                 {
                     break;
                 }
-                
-                imports.Add(
-                    TestRazorSourceDocument.CreateResource(importsFilename, encoding: null, normalizeNewLines: true));
+
+                imports.Add(TestRazorSourceDocument.CreateResource(
+                    importsFilename,
+                    Assembly,
+                    encoding: null,
+                    normalizeNewLines: true));
             }
 
             var codeDocument = RazorCodeDocument.Create(
-                TestRazorSourceDocument.CreateResource(sourceFilename, encoding: null, normalizeNewLines: true), imports);
+                TestRazorSourceDocument.CreateResource(
+                    sourceFilename,
+                    Assembly,
+                    encoding: null,
+                    normalizeNewLines: true),
+                imports);
 
             // This will ensure that we're not putting any randomly generated data in a baseline.
             codeDocument.Items[DefaultRazorCSharpLoweringPhase.SuppressUniqueIds] = "test";
@@ -85,7 +107,7 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
                 return;
             }
 
-            var testFile = TestFile.Create(baselineFilename);
+            var testFile = new TestFile(baselineFilename, Assembly);
             if (!testFile.Exists())
             {
                 throw new XunitException($"The resource {baselineFilename} was not found.");
@@ -112,7 +134,7 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
                 return;
             }
 
-            var testFile = TestFile.Create(baselineFilename);
+            var testFile = new TestFile(baselineFilename, Assembly);
             if (!testFile.Exists())
             {
                 throw new XunitException($"The resource {baselineFilename} was not found.");
@@ -154,7 +176,7 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
                 return;
             }
 
-            var testFile = TestFile.Create(baselineFilename);
+            var testFile = new TestFile(baselineFilename, Assembly);
             if (!testFile.Exists())
             {
                 throw new XunitException($"The resource {baselineFilename} was not found.");

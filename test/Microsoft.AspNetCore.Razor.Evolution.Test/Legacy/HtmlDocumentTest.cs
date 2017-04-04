@@ -9,7 +9,8 @@ namespace Microsoft.AspNetCore.Razor.Evolution.Legacy
 {
     public class HtmlDocumentTest : CsHtmlMarkupParserTestBase
     {
-        private static readonly TestFile Nested1000 = TestFile.Create("TestFiles/nested-1000.html");
+        private static readonly TestFile Nested1000 = 
+            new TestFile("TestFiles/nested-1000.html", typeof(HtmlDocumentTest).Assembly);
 
         [Fact]
         public void ParseDocument_NestedCodeBlockWithMarkupSetsDotAsMarkup()

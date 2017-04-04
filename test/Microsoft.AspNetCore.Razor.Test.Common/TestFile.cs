@@ -10,7 +10,7 @@ namespace Microsoft.AspNetCore.Razor.Evolution
 {
     public class TestFile
     {
-        private TestFile(string resourceName, Assembly assembly)
+        public TestFile(string resourceName, Assembly assembly)
         {
             Assembly = assembly;
             ResourceName = Assembly.GetName().Name + "." + resourceName.Replace('/', '.');
@@ -19,11 +19,6 @@ namespace Microsoft.AspNetCore.Razor.Evolution
         public Assembly Assembly { get; }
 
         public string ResourceName { get; }
-
-        public static TestFile Create(string resourceName)
-        {
-            return new TestFile(resourceName, typeof(TestFile).GetTypeInfo().Assembly);
-        }
 
         public Stream OpenRead()
         {

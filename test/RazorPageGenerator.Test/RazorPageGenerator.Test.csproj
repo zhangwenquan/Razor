@@ -9,10 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.AspNetCore.Razor.Evolution.Test\TestProject.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.AspNetCore.Razor.Test.Common\Microsoft.AspNetCore.Razor.Test.Common.csproj" />
     <ProjectReference Include="..\..\src\RazorPageGenerator\RazorPageGenerator.csproj" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(TestSdkVersion)" />
     <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)" />

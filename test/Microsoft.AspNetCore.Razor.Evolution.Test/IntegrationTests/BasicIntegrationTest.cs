@@ -2,12 +2,17 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Razor.Evolution.Legacy;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
 {
     public class BasicIntegrationTest : IntegrationTestBase
     {
+        public BasicIntegrationTest()
+            :base(typeof(BasicIntegrationTest))
+        { }
+
         [Fact]
         public void Empty()
         {

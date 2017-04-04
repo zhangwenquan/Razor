@@ -3,9 +3,9 @@
 
 using System.IO;
 using System.Text;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System;
+using System.Reflection;
 
 namespace Microsoft.AspNetCore.Razor.Evolution
 {
@@ -16,9 +16,13 @@ namespace Microsoft.AspNetCore.Razor.Evolution
         {
         }
 
-        public static RazorSourceDocument CreateResource(string path, Encoding encoding = null, bool normalizeNewLines = false)
+        public static RazorSourceDocument CreateResource(
+            string path,
+            Assembly assembly,
+            Encoding encoding = null,
+            bool normalizeNewLines = false)
         {
-            var file = TestFile.Create(path);
+            var file = new TestFile(path, assembly);
 
             using (var input = file.OpenRead())
             using (var reader = new StreamReader(input))

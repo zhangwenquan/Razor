@@ -9,7 +9,10 @@ namespace Microsoft.AspNetCore.Razor.Evolution
     public class FileSystemRazorProjectItemTest
     {
         private static string TestFolder { get; } =
-           Path.Combine(TestProject.GetProjectDirectory(), "TestFiles", "FileSystemRazorProject");
+           Path.Combine(TestProject.GetProjectDirectory(
+               typeof(FileSystemRazorProjectItemTest)),
+               "TestFiles",
+               "FileSystemRazorProject");
 
         [Fact]
         public void FileSystemRazorProjectItem_SetsProperties()

@@ -12,8 +12,10 @@ namespace Microsoft.AspNetCore.Razor.Evolution.Legacy
 {
     public class RazorEditorParserTest
     {
-        private static readonly TestFile SimpleCSHTMLDocument = TestFile.Create("TestFiles/DesignTime/Simple.cshtml");
-        private static readonly TestFile SimpleCSHTMLDocumentGenerated = TestFile.Create("TestFiles/DesignTime/Simple.txt");
+        private static readonly TestFile SimpleCSHTMLDocument = 
+            new TestFile("TestFiles/DesignTime/Simple.cshtml", typeof(RazorEditorParserTest).Assembly);
+        private static readonly TestFile SimpleCSHTMLDocumentGenerated =
+            new TestFile("TestFiles/DesignTime/Simple.txt", typeof(RazorEditorParserTest).Assembly);
         private const string TestLinePragmaFileName = "C:\\This\\Path\\Is\\Just\\For\\Line\\Pragmas.cshtml";
 
         public static TheoryData TagHelperPartialParseRejectData

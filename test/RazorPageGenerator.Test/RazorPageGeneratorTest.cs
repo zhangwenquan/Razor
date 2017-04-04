@@ -34,8 +34,7 @@ namespace RazorPageGenerator.Test
         public void Generator_GeneratesCodeForFilesIntheViewsDirectory()
         {
             // Arrange
-            var projectDirectory = TestProject.GetProjectDirectory();
-
+            var projectDirectory = TestProject.GetProjectDirectory(typeof(RazorPageGeneratorTest));
 
             // Act
             var results = Program.MainCore("Microsoft.AspNetCore.TestGenerated", projectDirectory);

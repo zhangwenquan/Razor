@@ -3,12 +3,17 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Razor.Test.Common;
 using Xunit;
 
 namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
 {
     public class TagHelpersIntegrationTest : IntegrationTestBase
     {
+        public TagHelpersIntegrationTest()
+            :base(typeof(TagHelpersIntegrationTest))
+        { }
+
         [Fact]
         public void SimpleTagHelpers()
         {

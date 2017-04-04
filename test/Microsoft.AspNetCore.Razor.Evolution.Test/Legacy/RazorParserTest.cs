@@ -12,7 +12,9 @@ namespace Microsoft.AspNetCore.Razor.Evolution.Legacy
         public void CanParseStuff()
         {
             var parser = new RazorParser();
-            var sourceDocument = TestRazorSourceDocument.CreateResource("TestFiles/Source/BasicMarkup.cshtml");
+            var sourceDocument = TestRazorSourceDocument.CreateResource(
+                "TestFiles/Source/BasicMarkup.cshtml", 
+                typeof(RazorParserTest).Assembly);
             var output = parser.Parse(sourceDocument);
 
             Assert.NotNull(output);

@@ -9,6 +9,12 @@ namespace Microsoft.AspNetCore.Razor.Evolution.IntegrationTests
 {
     public class RazorTemplateEngineIntegrationTest : IntegrationTestBase
     {
+        public RazorTemplateEngineIntegrationTest()
+            : base(typeof(RazorTemplateEngineIntegrationTest))
+        {
+
+        }
+
         [Fact]
         public void GenerateCodeWithDefaults()
         {

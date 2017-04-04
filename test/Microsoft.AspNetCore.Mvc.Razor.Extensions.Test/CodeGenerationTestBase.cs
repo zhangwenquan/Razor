@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Razor.Evolution;
+using Microsoft.AspNetCore.Razor.Evolution.IntegrationTests;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Razor.Test.Common;
 using Microsoft.CodeAnalysis;
@@ -18,71 +19,18 @@ using Xunit;
 
 namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
 {
-    public class CodeGenerationTestBase<TTest>
+    public class CodeGenerationTestBase<TTest> : IntegrationTestBase
     {
-        private static Assembly _assembly = typeof(TTest).GetTypeInfo().Assembly;
-
-        protected void RunRuntimeTest(string testName, IEnumerable<TagHelperDescriptor> descriptors = null)
+        public CodeGenerationTestBase()
+            : base(typeof(TTest))
         {
-            // Arrange
-            var inputFile = "TestFiles/Input/" + testName + ".cshtml";
-            var outputFile = "TestFiles/Output/Runtime/" + testName + ".cs";
-            var expectedCode = ResourceFile.ReadResource(_assembly, outputFile, sourceFile: false);
-
-            var engine = RazorEngine.Create(b =>
-            {
-                RazorExtensions.Register(b);
-
-                b.Features.Add(GetMetadataReferenceFeature());
-
-                if (descriptors != null)
-                {
-                    b.AddTagHelpers(descriptors);
-                }
-                else
-                {
-                    b.Features.Add(new DefaultTagHelperFeature());
-                }
-
-            });
-
-            var inputContent = ResourceFile.ReadResource(_assembly, inputFile, sourceFile: true);
-            var item = new TestRazorProjectItem("/" + inputFile) { Content = inputContent, };
-            var project = new TestRazorProject(new List<RazorProjectItem>()
-            {
-                item,
-            });
-
-            var razorTemplateEngine = new MvcRazorTemplateEngine(engine, project);
-            razorTemplateEngine.Options.ImportsFileName = "_ViewImports.cshtml";
-            var codeDocument = razorTemplateEngine.CreateCodeDocument(item);
-            codeDocument.Items["SuppressUniqueIds"] = "test";
-            codeDocument.Items["NewLineString"] = "\r\n";
-
-            // Act
-            var csharpDocument = razorTemplateEngine.GenerateCode(codeDocument);
-
-            // Assert
-            Assert.Empty(csharpDocument.Diagnostics);
-
-#if GENERATE_BASELINES
-            ResourceFile.UpdateFile(_assembly, outputFile, expectedCode, csharpDocument.GeneratedCode);
-#else
-            Assert.Equal(expectedCode, csharpDocument.GeneratedCode, ignoreLineEndingDifferences: true);
-#endif
         }
 
-        protected void RunDesignTimeTest(string testName, IEnumerable<TagHelperDescriptor> descriptors = null)
+        private static Assembly _assembly = typeof(TTest).GetTypeInfo().Assembly;
+
+        private static RazorEngine GetRazorEngine(IEnumerable<TagHelperDescriptor> descriptors)
         {
-            // Arrange
-            var inputFile = "TestFiles/Input/" + testName + ".cshtml";
-            var outputFile = "TestFiles/Output/DesignTime/" + testName + ".cs";
-            var expectedCode = ResourceFile.ReadResource(_assembly, outputFile, sourceFile: false);
-
-            var lineMappingOutputFile = "TestFiles/Output/DesignTime/" + testName + ".mappings.txt";
-            var expectedMappings = ResourceFile.ReadResource(_assembly, lineMappingOutputFile, sourceFile: false);
-
-            var engine = RazorEngine.CreateDesignTime(b =>
+            return RazorEngine.Create(b =>
             {
                 RazorExtensions.Register(b);
 
@@ -97,35 +45,38 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
                     b.Features.Add(new DefaultTagHelperFeature());
                 }
             });
+        }
 
-            var inputContent = ResourceFile.ReadResource(_assembly, inputFile, sourceFile: true);
-            var item = new TestRazorProjectItem("/" + inputFile) { Content = inputContent, };
-            var project = new TestRazorProject(new List<RazorProjectItem>()
-            {
-                item,
-            });
-
-            var razorTemplateEngine = new MvcRazorTemplateEngine(engine, project);
-            razorTemplateEngine.Options.ImportsFileName = "_ViewImports.cshtml";
-            var codeDocument = razorTemplateEngine.CreateCodeDocument(item);
-            codeDocument.Items["SuppressUniqueIds"] = "test";
-            codeDocument.Items["NewLineString"] = "\r\n";
-
+        protected void RunRuntimeTest(IEnumerable<TagHelperDescriptor> descriptors = null)
+        {
+            // Arrange
+            var engine = GetRazorEngine(descriptors);
+            var document = CreateCodeDocument();  
+            
             // Act
-            var csharpDocument = razorTemplateEngine.GenerateCode(codeDocument);
+            engine.Process(document);
 
             // Assert
-            Assert.Empty(csharpDocument.Diagnostics);
+            var cSharpDocument = document.GetCSharpDocument();
 
-            var serializedMappings = LineMappingsSerializer.Serialize(csharpDocument, codeDocument.Source);
+            Assert.Empty(cSharpDocument.Diagnostics);
 
-#if GENERATE_BASELINES
-            ResourceFile.UpdateFile(_assembly, outputFile, expectedCode, csharpDocument.GeneratedCode);
-            ResourceFile.UpdateFile(_assembly, lineMappingOutputFile, expectedMappings, serializedMappings);
-#else
-            Assert.Equal(expectedCode, csharpDocument.GeneratedCode, ignoreLineEndingDifferences: true);
-            Assert.Equal(expectedMappings, serializedMappings, ignoreLineEndingDifferences: true);
-#endif
+            AssertIRMatchesBaseline(document.GetIRDocument());
+            AssertCSharpDocumentMatchesBaseline(cSharpDocument);
+        }
+
+        protected void RunDesignTimeTest(IEnumerable<TagHelperDescriptor> descriptors = null)
+        {
+            // Arrange
+            var engine = GetRazorEngine(descriptors);
+            var document = CreateCodeDocument();
+
+            // Act
+            engine.Process(document);
+
+            // Assert
+            AssertIRMatchesBaseline(document.GetIRDocument());
+            AssertDesignTimeDocumentMatchBaseline(document);
         }
 
         private static IRazorEngineFeature GetMetadataReferenceFeature()
