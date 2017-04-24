@@ -9,6 +9,7 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              Name="MyToolWindow">
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
     <StackPanel HorizontalAlignment="Stretch">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -31,4 +32,10 @@
             <Label Grid.Column="1" Grid.Row="3" Content="{Binding Workspace}"/>
         </Grid>
     </StackPanel>
+=======
+    <Grid>
+        <StackPanel Orientation="Vertical">
+        </StackPanel>
+    </Grid>
+>>>>>>> wip
 </UserControl>

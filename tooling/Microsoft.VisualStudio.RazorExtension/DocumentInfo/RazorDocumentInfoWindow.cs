@@ -4,30 +4,53 @@
 #if RAZOR_EXTENSION_DEVELOPER_MODE
 
 using System;
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
 using System.Runtime.InteropServices;
 using System.Windows;
 using Microsoft.CodeAnalysis.Razor;
+=======
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows;
+using Microsoft.CodeAnalysis.Razor;
+using Microsoft.CodeAnalysis.Razor.Workspaces;
+>>>>>>> wip
 using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.LanguageServices.Razor;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
+=======
+using Microsoft.VisualStudio.Text;
+>>>>>>> wip
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 
 namespace Microsoft.VisualStudio.RazorExtension.DocumentInfo
 {
     [Guid("d8d83218-309c-4c8f-9c9f-38a6fead8dca")]
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
     internal class RazorDocumentInfoWindow : ToolWindowPane
     {
         private IVsEditorAdaptersFactoryService _adapterFactory;
         private TextViewRazorDocumentTrackerService _documentTrackerService;
+=======
+    internal class RazorDocumentInfoWindow : ToolWindowPane, IRazorEditorWorkerEvents
+    {
+        private IVsEditorAdaptersFactoryService _adapterFactory;
+        private RazorEditorWorkerEventsService _eventsService;
+>>>>>>> wip
         private IVsTextManager _textManager;
         private IVsRunningDocumentTable _rdt;
         
         private uint _cookie;
         private ITextView _textView;
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
         private RazorDocumentTracker _documentTracker;
+=======
+        private ITextBuffer _textBuffer;
+>>>>>>> wip
 
         public RazorDocumentInfoWindow() 
             : base(null)
@@ -43,7 +66,11 @@ namespace Microsoft.VisualStudio.RazorExtension.DocumentInfo
 
             var component = (IComponentModel)GetService(typeof(SComponentModel));
             _adapterFactory = component.GetService<IVsEditorAdaptersFactoryService>();
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
             _documentTrackerService = component.GetService<TextViewRazorDocumentTrackerService>();
+=======
+            _eventsService = component.GetService<RazorEditorWorkerEventsService>();
+>>>>>>> wip
             
             _textManager = (IVsTextManager)GetService(typeof(SVsTextManager));
             _rdt = (IVsRunningDocumentTable)GetService(typeof(SVsRunningDocumentTable));
@@ -68,6 +95,7 @@ namespace Microsoft.VisualStudio.RazorExtension.DocumentInfo
             if (textView != null && textView != _textView)
             {
                 _textView = textView;
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
 
                 if (_documentTracker != null)
                 {
@@ -78,6 +106,15 @@ namespace Microsoft.VisualStudio.RazorExtension.DocumentInfo
                 _documentTracker.ContextChanged += DocumentTracker_ContextChanged;
 
                 ((FrameworkElement)Content).DataContext = new RazorDocumentInfoViewModel(_documentTracker);
+=======
+                _textBuffer = _textView.BufferGraph.GetTextBuffers(b => b.ContentType.TypeName == RazorLanguage.ContentType).FirstOrDefault();
+
+                // This is a Razor editor, let's register for events and see if the editor worker has been initialized.
+                _eventsService.AdviseWorkerEvents(_textBuffer, this);
+
+                var worker = _eventsService.GetWorker(_textBuffer);
+                ((FrameworkElement)Content).DataContext = worker == null ? null : new RazorDocumentInfoViewModel(worker);
+>>>>>>> wip
             }
         }
 
@@ -89,6 +126,7 @@ namespace Microsoft.VisualStudio.RazorExtension.DocumentInfo
             if (textView == _textView)
             {
                 ((FrameworkElement)Content).DataContext = null;
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
                 _documentTracker.ContextChanged -= DocumentTracker_ContextChanged;
 
                 _textView = null;
@@ -99,6 +137,24 @@ namespace Microsoft.VisualStudio.RazorExtension.DocumentInfo
         private void DocumentTracker_ContextChanged(object sender, EventArgs e)
         {
             ((FrameworkElement)Content).DataContext = new RazorDocumentInfoViewModel(_documentTracker);
+=======
+
+                _eventsService.UnadviseWorkerEvents(_textBuffer, this);
+
+                _textBuffer = null;
+                _textView = null;
+            }
+        }
+
+        public void OnWorkerInitialized(RazorEditorWorker worker)
+        {
+            ((FrameworkElement)Content).DataContext = new RazorDocumentInfoViewModel(worker);
+        }
+
+        public void OnWorkerUninitialized(RazorEditorWorker worker)
+        {
+            ((FrameworkElement)Content).DataContext = null;
+>>>>>>> wip
         }
 
         private class RdtEvents : IVsRunningDocTableEvents

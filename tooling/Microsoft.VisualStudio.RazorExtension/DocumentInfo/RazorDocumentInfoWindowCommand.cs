@@ -18,7 +18,11 @@ namespace Microsoft.VisualStudio.RazorExtension.DocumentInfo
         /// <summary>
         /// Command ID.
         /// </summary>
+<<<<<<< 0688cd3ef73ea50999e7a95aa53a12e7e03f3e93
         public const int CommandId = 0x101;
+=======
+        public const int CommandId = 257;
+>>>>>>> wip
 
         /// <summary>
         /// Command menu group (command set GUID).
