@@ -225,4 +225,10 @@
   <data name="IRNodeReference_CollectionIsReadOnly" xml:space="preserve">
     <value>The node '{0}' has a read-only child collection and cannot be modified.</value>
   </data>
+  <data name="DuplicateDirective" xml:space="preserve">
+    <value>The '{0}' directive may only occurr once per document.</value>
+  </data>
+  <data name="DirectiveMustBeAtTopOfFile" xml:space="preserve">
+    <value>The '{0}' directive must exist at the top of the document prior to other markup or code.</value>
+  </data>
 </root>

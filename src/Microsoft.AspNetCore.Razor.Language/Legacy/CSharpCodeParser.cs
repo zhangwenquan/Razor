@@ -74,6 +74,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
         private Dictionary<string, Action> _directiveParsers = new Dictionary<string, Action>(StringComparer.Ordinal);
         private Dictionary<CSharpKeyword, Action<bool>> _keywordParsers = new Dictionary<CSharpKeyword, Action<bool>>();
+        private HashSet<string> _seenDirectives = new HashSet<string>();
 
         public CSharpCodeParser(ParserContext context)
             : this(directiveDescriptors: Enumerable.Empty<DirectiveDescriptor>(), context: context)
@@ -105,6 +106,7 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 {
                     EnsureDirectiveIsAtStartOfLine();
                     handler();
+                    _seenDirectives.Add(directive);
                 });
                 Keywords.Add(directive);
 
@@ -1599,6 +1601,11 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
             Context.ErrorSink = directiveErrorSink;
             try
             {
+                if (!ValidDirectiveUsage(descriptor))
+                {
+                    return;
+                }
+
                 for (var i = 0; i < descriptor.Tokens.Count; i++)
                 {
                     if (!At(CSharpSymbolType.WhiteSpace))
@@ -1772,6 +1779,65 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
                 }
 
                 Context.ErrorSink = savedErrorSink;
+            }
+        }
+
+        private bool ValidDirectiveUsage(DirectiveDescriptor descriptor)
+        {
+            if (descriptor.Usage == DirectiveUsage.SingleNotNested)
+            {
+                if (_seenDirectives.Contains(descriptor.Directive))
+                {
+                    UsageError(Resources.FormatDuplicateDirective(descriptor.Directive));
+                    return false;
+                }
+
+                if (Context.Builder.ActiveBlocks.Count != 2)
+                {
+                    // 1 block for the root, 1 for the directive block, any more than 2 active blocks
+                    // means the directive is nested under another block.
+
+                    UsageError(Resources.FormatDirectiveMustBeAtTopOfFile(descriptor.Directive));
+                    return false;
+                }
+
+                var root = Context.Builder.ActiveBlocks.First();
+                for (var i = 0; i < root.Children.Count; i++)
+                {
+                    // Directives, comments and whitespace are valid prior to an unnested directive.
+
+                    var child = root.Children[i];
+                    if (child is Legacy.Block block)
+                    {
+                        if (block.Type == BlockKindInternal.Directive || block.Type == BlockKindInternal.Comment)
+                        {
+                            continue;
+                        }
+                    }
+                    else if (child is Span span)
+                    {
+                        if (span.Kind == SpanKindInternal.Comment ||
+                            span.Symbols.All(symbol => string.IsNullOrWhiteSpace(symbol.Content)))
+                        {
+                            continue;
+                        }
+                    }
+
+                    UsageError(Resources.FormatDirectiveMustBeAtTopOfFile(descriptor.Directive));
+                    return false;
+                }
+            }
+
+            return true;
+
+            void UsageError(string message)
+            {
+                var directiveStart = Context.Builder.CurrentBlock.Children.First().Start;
+                var errorLength = descriptor.Directive.Length + 1; // @directivename
+                Context.ErrorSink.OnError(
+                    directiveStart,
+                    Resources.FormatDirectiveMustBeAtTopOfFile(descriptor.Directive),
+                    errorLength);
             }
         }
 

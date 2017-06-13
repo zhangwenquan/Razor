@@ -31,6 +31,11 @@ namespace Microsoft.AspNetCore.Razor.Language
         DirectiveKind Kind { get; }
 
         /// <summary>
+        /// Gets the directive usage.
+        /// </summary>
+        DirectiveUsage Usage { get; set; }
+
+        /// <summary>
         /// Gets a list of the directive tokens.
         /// </summary>
         IList<DirectiveTokenDescriptor> Tokens { get; }

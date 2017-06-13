@@ -514,6 +514,34 @@ namespace Microsoft.AspNetCore.Razor.Language
         internal static string FormatIRNodeReference_CollectionIsReadOnly(object p0)
             => string.Format(CultureInfo.CurrentCulture, GetString("IRNodeReference_CollectionIsReadOnly"), p0);
 
+        /// <summary>
+        /// The '{0}' directive may only occurr once per document.
+        /// </summary>
+        internal static string DuplicateDirective
+        {
+            get => GetString("DuplicateDirective");
+        }
+
+        /// <summary>
+        /// The '{0}' directive may only occurr once per document.
+        /// </summary>
+        internal static string FormatDuplicateDirective(object p0)
+            => string.Format(CultureInfo.CurrentCulture, GetString("DuplicateDirective"), p0);
+
+        /// <summary>
+        /// The '{0}' directive must exist at the top of the document prior to other markup or code.
+        /// </summary>
+        internal static string DirectiveMustBeAtTopOfFile
+        {
+            get => GetString("DirectiveMustBeAtTopOfFile");
+        }
+
+        /// <summary>
+        /// The '{0}' directive must exist at the top of the document prior to other markup or code.
+        /// </summary>
+        internal static string FormatDirectiveMustBeAtTopOfFile(object p0)
+            => string.Format(CultureInfo.CurrentCulture, GetString("DirectiveMustBeAtTopOfFile"), p0);
+
         private static string GetString(string name, params string[] formatterNames)
         {
             var value = _resourceManager.GetString(name);
