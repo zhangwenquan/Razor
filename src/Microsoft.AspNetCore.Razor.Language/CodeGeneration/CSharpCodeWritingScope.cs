@@ -2,22 +2,21 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Linq;
 
-namespace Microsoft.AspNetCore.Razor.Language.Legacy
+namespace Microsoft.AspNetCore.Razor.Language.CodeGeneration
 {
     public struct CSharpCodeWritingScope : IDisposable
     {
-        private CodeWriter _writer;
+        private CSharpCodeWriter _writer;
         private bool _autoSpace;
         private int _tabSize;
         private int _startIndent;
 
-        public CSharpCodeWritingScope(CodeWriter writer) : this(writer, true) { }
-        public CSharpCodeWritingScope(CodeWriter writer, int tabSize) : this(writer, tabSize, true) { }
+        public CSharpCodeWritingScope(CSharpCodeWriter writer) : this(writer, true) { }
+        public CSharpCodeWritingScope(CSharpCodeWriter writer, int tabSize) : this(writer, tabSize, true) { }
         // TODO: Make indents (tabs) environment specific
-        public CSharpCodeWritingScope(CodeWriter writer, bool autoSpace) : this(writer, 4, autoSpace) { }
-        public CSharpCodeWritingScope(CodeWriter writer, int tabSize, bool autoSpace)
+        public CSharpCodeWritingScope(CSharpCodeWriter writer, bool autoSpace) : this(writer, 4, autoSpace) { }
+        public CSharpCodeWritingScope(CSharpCodeWriter writer, int tabSize, bool autoSpace)
         {
             _writer = writer;
             _autoSpace = true;

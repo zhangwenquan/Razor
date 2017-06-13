@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Microsoft.AspNetCore.Razor.Language.Legacy
+namespace Microsoft.AspNetCore.Razor.Language.CodeGeneration
 {
-    public class CodeWriterTest
+    public class CSharpCodeWriterTest
     {
         // The length of the newline string written by writer.WriteLine.
         private static readonly int WriterNewLineLength = Environment.NewLine.Length;
@@ -26,10 +26,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithWrite()
+        public void CSharpCodeWriter_TracksPosition_WithWrite()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234");
@@ -42,10 +42,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithIndent()
+        public void CSharpCodeWriter_TracksPosition_WithIndent()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.WriteLine();
@@ -59,10 +59,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithWriteLine()
+        public void CSharpCodeWriter_TracksPosition_WithWriteLine()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.WriteLine("1234");
@@ -77,10 +77,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
         [Theory]
         [MemberData(nameof(NewLines))]
-        public void CodeWriter_TracksPosition_WithWriteLine_WithNewLineInContent(string newLine)
+        public void CSharpCodeWriter_TracksPosition_WithWriteLine_WithNewLineInContent(string newLine)
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.WriteLine("1234" + newLine + "12");
@@ -98,10 +98,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
         [Theory]
         [MemberData(nameof(NewLines))]
-        public void CodeWriter_TracksPosition_WithWrite_WithNewlineInContent(string newLine)
+        public void CSharpCodeWriter_TracksPosition_WithWrite_WithNewlineInContent(string newLine)
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234" + newLine + "123" + newLine + "12");
@@ -118,10 +118,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithWrite_WithNewlineInContent_RepeatedN()
+        public void CSharpCodeWriter_TracksPosition_WithWrite_WithNewlineInContent_RepeatedN()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234\n\n123");
@@ -138,10 +138,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithWrite_WithMixedNewlineInContent()
+        public void CSharpCodeWriter_TracksPosition_WithWrite_WithMixedNewlineInContent()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234\r123\r\n12\n1");
@@ -158,10 +158,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithNewline_SplitAcrossWrites()
+        public void CSharpCodeWriter_TracksPosition_WithNewline_SplitAcrossWrites()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234\r");
@@ -179,10 +179,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithTwoNewline_SplitAcrossWrites_R()
+        public void CSharpCodeWriter_TracksPosition_WithTwoNewline_SplitAcrossWrites_R()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234\r");
@@ -200,10 +200,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithTwoNewline_SplitAcrossWrites_N()
+        public void CSharpCodeWriter_TracksPosition_WithTwoNewline_SplitAcrossWrites_N()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234\n");
@@ -221,10 +221,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithTwoNewline_SplitAcrossWrites_Reversed()
+        public void CSharpCodeWriter_TracksPosition_WithTwoNewline_SplitAcrossWrites_Reversed()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("1234\n");
@@ -242,10 +242,10 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
         }
 
         [Fact]
-        public void CodeWriter_TracksPosition_WithNewline_SplitAcrossWrites_AtBeginning()
+        public void CSharpCodeWriter_TracksPosition_WithNewline_SplitAcrossWrites_AtBeginning()
         {
             // Arrange
-            var writer = new CodeWriter();
+            var writer = new CSharpCodeWriter();
 
             // Act
             writer.Write("\r");
@@ -260,6 +260,101 @@ namespace Microsoft.AspNetCore.Razor.Language.Legacy
 
             var expected2 = new SourceLocation(absoluteIndex: 2, lineIndex: 1, characterIndex: 0);
             Assert.Equal(expected2, location2);
+        }
+
+        [Fact]
+        public void WriteLineNumberDirective_UsesFilePath_WhenFileInSourceLocationIsNull()
+        {
+            // Arrange
+            var filePath = "some-path";
+            var writer = new CSharpCodeWriter();
+            var expected = $"#line 5 \"{filePath}\"" + writer.NewLine;
+            var sourceLocation = new SourceLocation(10, 4, 3);
+            var mappingLocation = new SourceSpan(sourceLocation, 9);
+
+            // Act
+            writer.WriteLineNumberDirective(mappingLocation, filePath);
+            var code = writer.GenerateCode();
+
+            // Assert
+            Assert.Equal(expected, code);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData("source-location-file-path")]
+        public void WriteLineNumberDirective_UsesSourceLocationFilePath_IfAvailable(
+            string sourceLocationFilePath)
+        {
+            // Arrange
+            var filePath = "some-path";
+            var writer = new CSharpCodeWriter();
+            var expected = $"#line 5 \"{sourceLocationFilePath}\"" + writer.NewLine;
+            var sourceLocation = new SourceLocation(sourceLocationFilePath, 10, 4, 3);
+            var mappingLocation = new SourceSpan(sourceLocation, 9);
+
+            // Act
+            writer.WriteLineNumberDirective(mappingLocation, filePath);
+            var code = writer.GenerateCode();
+
+            // Assert
+            Assert.Equal(expected, code);
+        }
+
+        [Fact]
+        public void WriteField_WritesFieldDeclaration()
+        {
+            // Arrange
+            var writer = new CSharpCodeWriter();
+
+            // Act
+            writer.WriteField("private", "global::System.String", "_myString");
+
+            // Assert
+            var output = writer.GenerateCode();
+            Assert.Equal("private global::System.String _myString;" + Environment.NewLine, output);
+        }
+
+        [Fact]
+        public void WriteField_WithModifiers_WritesFieldDeclaration()
+        {
+            // Arrange
+            var writer = new CSharpCodeWriter();
+
+            // Act
+            writer.WriteField("private", new[] { "readonly", "static" }, "global::System.String", "_myString");
+
+            // Assert
+            var output = writer.GenerateCode();
+            Assert.Equal("private readonly static global::System.String _myString;" + Environment.NewLine, output);
+        }
+
+        [Fact]
+        public void WriteAutoPropertyDeclaration_WritesPropertyDeclaration()
+        {
+            // Arrange
+            var writer = new CSharpCodeWriter();
+
+            // Act
+            writer.WriteAutoPropertyDeclaration("public", "global::System.String", "MyString");
+
+            // Assert
+            var output = writer.GenerateCode();
+            Assert.Equal("public global::System.String MyString { get; set; }" + Environment.NewLine, output);
+        }
+
+        [Fact]
+        public void WriteAutoPropertyDeclaration_WithModifiers_WritesPropertyDeclaration()
+        {
+            // Arrange
+            var writer = new CSharpCodeWriter();
+
+            // Act
+            writer.WriteAutoPropertyDeclaration("public", new[] { "static" }, "global::System.String", "MyString");
+
+            // Assert
+            var output = writer.GenerateCode();
+            Assert.Equal("public static global::System.String MyString { get; set; }" + Environment.NewLine, output);
         }
     }
 }

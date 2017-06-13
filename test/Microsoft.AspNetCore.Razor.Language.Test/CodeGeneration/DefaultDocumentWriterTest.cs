@@ -20,7 +20,7 @@ namespace Microsoft.AspNetCore.Razor.Language.CodeGeneration
             var context = new CSharpRenderingContext()
             {
                 Options = options,
-                Writer = new Legacy.CSharpCodeWriter(),
+                Writer = new CSharpCodeWriter(),
             };
 
             var writer = new DefaultDocumentWriter(target, context);
@@ -58,7 +58,7 @@ namespace Microsoft.AspNetCore.Razor.Language.CodeGeneration
             var context = new CSharpRenderingContext()
             {
                 Options = options,
-                Writer = new Legacy.CSharpCodeWriter(),
+                Writer = new CSharpCodeWriter(),
             };
             var writer = new DefaultDocumentWriter(target, context);
 
@@ -97,7 +97,7 @@ namespace Microsoft.AspNetCore.Razor.Language.CodeGeneration
             var context = new CSharpRenderingContext()
             {
                 Options = options,
-                Writer = new Legacy.CSharpCodeWriter(),
+                Writer = new CSharpCodeWriter(),
             };
             var writer = new DefaultDocumentWriter(target, context);
 
@@ -138,7 +138,7 @@ internal virtual async string TestMethod()
             var context = new CSharpRenderingContext()
             {
                 Options = options,
-                Writer = new Legacy.CSharpCodeWriter(),
+                Writer = new CSharpCodeWriter(),
             };
             var writer = new DefaultDocumentWriter(target, context);
 
@@ -175,7 +175,7 @@ internal virtual async string TestMethod()
             var context = new CSharpRenderingContext()
             {
                 Options = options,
-                Writer = new Legacy.CSharpCodeWriter(),
+                Writer = new CSharpCodeWriter(),
             };
             var writer = new DefaultDocumentWriter(target, context);
 

@@ -6,8 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Razor.Language.CodeGeneration;
 using Microsoft.AspNetCore.Razor.Language.Intermediate;
-using Microsoft.AspNetCore.Razor.Language.Legacy;
 
 namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
 {
@@ -101,7 +101,7 @@ namespace Microsoft.AspNetCore.Mvc.Razor.Extensions
             var tagHelperTypeName = "Microsoft.AspNetCore.Razor.TagHelpers.TagHelper";
             var className = GetVCTHClassName(descriptor);
 
-            using (writer.BuildClassDeclaration("public", className, new[] { tagHelperTypeName }))
+            using (writer.BuildClassDeclaration("public", className, tagHelperTypeName))
             {
                 // Add view component helper.
                 writer.WriteVariableDeclaration(
